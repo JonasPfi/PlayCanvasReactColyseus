@@ -1,0 +1,36 @@
+{
+    "name": "frontend",
+    "version": "0.0.0",
+    "private": true,
+    "description": "A PlayCanvas React project",
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite",
+        "fmt": "prettier --check .",
+        "fmt:fix": "prettier --write .",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "start": "vite preview",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@playcanvas/react": "^0.11.5",
+        "playcanvas": "^2.21.3",
+        "react": "^19.2.8",
+        "react-dom": "^19.2.8"
+    },
+    "devDependencies": {
+        "@playcanvas/eslint-config": "3.0.0-beta.8",
+        "@types/react": "^19.2.18",
+        "@types/react-dom": "^19.2.4",
+        "@vitejs/plugin-react": "^6.0.5",
+        "eslint": "^9.39.5",
+        "prettier": "^3.9.6",
+        "typescript": "~6.0.3",
+        "vite": "^8.2.0"
+    },
+    "engines": {
+        "node": ">=22.23.2"
+    }
+}
