@@ -1,68 +1,72 @@
 import {
-    defineServer,
-    defineRoom,
-    monitor,
-    playground,
-    createRouter,
-    createEndpoint,
-    auth,
+  defineServer,
+  defineRoom,
+  monitor,
+  playground,
+  createRouter,
+  createEndpoint,
 } from "colyseus";
-
+/**
+ * Import auth singleton
+ */
+import { auth } from "@colyseus/auth";
+import "./config/auth"
 /**
  * Import your Room files
  */
 import { Chunk } from "./rooms/Chunk.js";
+import { colyseus } from "colyseus/vite";
 
 const server = defineServer({
-    /**
-     * Define your room handlers:
-     */
-    rooms: {
-        chunk: defineRoom(Chunk)
-    },
+  /**
+   * Define your room handlers:
+   */
+  rooms: {
+    chunk: defineRoom(Chunk)
+  },
+
+  /**
+   * Experimental: Define API routes. Built-in integration with the "playground" and SDK.
+   * 
+   * Usage from SDK: 
+   *   client.http.get("/api/hello").then((response) => {})
+   * 
+   */
+  // routes: createRouter({
+  //     api_hello: createEndpoint("/api/hello", { method: "GET", }, async (ctx) => {
+  //         return { message: "Hello World" }
+  //     })
+  // }),
+
+  /**
+   * Bind your custom express routes here:
+   * Read more: https://expressjs.com/en/starter/basic-routing.html
+   */
+  express: (app) => {
+    // app.get("/hi", (req, res) => {
+    //     res.send("It's time to kick ass and chew bubblegum!");
+    // });
 
     /**
-     * Experimental: Define API routes. Built-in integration with the "playground" and SDK.
-     * 
-     * Usage from SDK: 
-     *   client.http.get("/api/hello").then((response) => {})
-     * 
+     * Use @colyseus/auth
+     * Implementation of own authentication backend.
+     **/
+    app.use(auth.prefix, auth.routes());
+    /**
+     * Use @colyseus/monitor
+     * It is recommended to protect this route with a password
+     * Read more: https://docs.colyseus.io/tools/monitoring/#restrict-access-to-the-panel-using-a-password
      */
-    // routes: createRouter({
-    //     api_hello: createEndpoint("/api/hello", { method: "GET", }, async (ctx) => {
-    //         return { message: "Hello World" }
-    //     })
-    // }),
+    app.use("/monitor", monitor());
 
     /**
-     * Bind your custom express routes here:
-     * Read more: https://expressjs.com/en/starter/basic-routing.html
+     * Use @colyseus/playground
+     * (It is not recommended to expose this route in a production environment)
      */
-    express: (app) => {
-        // app.get("/hi", (req, res) => {
-        //     res.send("It's time to kick ass and chew bubblegum!");
-        // });
-
-        /**
-         * Use @colyseus/auth
-         * Implementation of own authentication backend.
-         **/
-        app.use(auth.prefix, auth.routes());
-        /**
-         * Use @colyseus/monitor
-         * It is recommended to protect this route with a password
-         * Read more: https://docs.colyseus.io/tools/monitoring/#restrict-access-to-the-panel-using-a-password
-         */
-        app.use("/monitor", monitor());
-
-        /**
-         * Use @colyseus/playground
-         * (It is not recommended to expose this route in a production environment)
-         */
-        if (process.env.NODE_ENV !== "production") {
-            app.use("/", playground());
-        }
+    if (process.env.NODE_ENV !== "production") {
+      app.use("/", playground());
     }
+  }
 
 });
 

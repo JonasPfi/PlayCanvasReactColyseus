@@ -1,4 +1,4 @@
-import { Room, Client, CloseCode } from "colyseus";
+import { Room, Client, CloseCode, AuthContext, ServerError, JWT } from "colyseus";
 import { ChunkState } from "./schema/ChunkState.js";
 
 export class Chunk extends Room {
@@ -14,20 +14,31 @@ export class Chunk extends Room {
     }
   }
 
-  onCreate (options: any) {
+  static async onAuth(token: string, options: any, context: AuthContext): Promise<unknown> {
+    if (!token) {
+      throw new ServerError(401, "no token provided");
+    }
+    try {
+      return await JWT.verify(token);
+    } catch (e) {
+      throw new ServerError(401, "invalid token");
+    }
+  }
+
+  onCreate(options: any) {
     /**
      * Called when a new room is created.
      */
   }
 
-  onJoin (client: Client, options: any) {
+  onJoin(client: Client, options: any) {
     /**
      * Called when a client joins the room.
      */
     console.log(client.sessionId, "joined!");
   }
 
-  onLeave (client: Client, code: CloseCode) {
+  onLeave(client: Client, code: CloseCode) {
     /**
      * Called when a client leaves the room.
      */
