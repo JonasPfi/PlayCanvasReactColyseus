@@ -10,14 +10,14 @@ import {
 /**
  * Import your Room files
  */
-import { MyRoom } from "./rooms/MyRoom.js";
+import { Chunk } from "./rooms/Chunk.js";
 
 const server = defineServer({
     /**
      * Define your room handlers:
      */
     rooms: {
-        my_room: defineRoom(MyRoom)
+        chunk: defineRoom(Chunk)
     },
 
     /**

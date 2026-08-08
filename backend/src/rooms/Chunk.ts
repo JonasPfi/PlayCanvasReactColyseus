@@ -1,9 +1,9 @@
 import { Room, Client, CloseCode } from "colyseus";
-import { MyRoomState } from "./schema/MyRoomState.js";
+import { ChunkState } from "./schema/ChunkState.js";
 
-export class MyRoom extends Room {
+export class Chunk extends Room {
   maxClients = 4;
-  state = new MyRoomState();
+  state = new ChunkState();
 
   messages = {
     yourMessageType: (client: Client, message: any) => {
