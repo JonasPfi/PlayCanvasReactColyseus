@@ -57,7 +57,7 @@ const server = defineServer({
      * It is recommended to protect this route with a password
      * Read more: https://docs.colyseus.io/tools/monitoring/#restrict-access-to-the-panel-using-a-password
      */
-    app.use("/monitor", monitor());
+    //app.use("/monitor", monitor());
 
     /**
      * Use @colyseus/playground
