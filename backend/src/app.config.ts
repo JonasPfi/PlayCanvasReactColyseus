@@ -5,6 +5,7 @@ import {
     playground,
     createRouter,
     createEndpoint,
+    auth,
 } from "colyseus";
 
 /**
@@ -42,6 +43,11 @@ const server = defineServer({
         //     res.send("It's time to kick ass and chew bubblegum!");
         // });
 
+        /**
+         * Use @colyseus/auth
+         * Implementation of own authentication backend.
+         **/
+        app.use(auth.prefix, auth.routes());
         /**
          * Use @colyseus/monitor
          * It is recommended to protect this route with a password
