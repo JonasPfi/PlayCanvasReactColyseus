@@ -3,15 +3,19 @@ import { Camera, Light, Render } from '@playcanvas/react/components';
 import { useAppEvent } from '@playcanvas/react/hooks';
 import type { Entity as PcEntity } from 'playcanvas';
 import { useRef } from 'react';
+import { useAuth } from './contexts/AuthContext';
 
 function Scene() {
   const cube = useRef<PcEntity>(null);
+
+  const { logout } = useAuth();
 
   // Rotate the cube according to the delta time since the last frame
   useAppEvent('update', (dt: number) => cube.current?.rotate(10 * dt, 20 * dt, 30 * dt));
 
   return (
     <>
+      <button onClick={logout}> Sign out</button>
       <Entity name="camera" position={[0, 0, 3]}>
         <Camera clearColor="#8099e6" />
       </Entity>
