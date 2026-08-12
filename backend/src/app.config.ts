@@ -10,7 +10,7 @@ import {
  * Import auth singleton
  */
 import { auth } from "@colyseus/auth";
-import "./config/auth"
+import "./config/auth.js";
 /**
  * Import your Room files
  */
@@ -27,10 +27,10 @@ const server = defineServer({
 
   /**
    * Experimental: Define API routes. Built-in integration with the "playground" and SDK.
-   * 
-   * Usage from SDK: 
+   *
+   * Usage from SDK:
    *   client.http.get("/api/hello").then((response) => {})
-   * 
+   *
    */
   // routes: createRouter({
   //     api_hello: createEndpoint("/api/hello", { method: "GET", }, async (ctx) => {
