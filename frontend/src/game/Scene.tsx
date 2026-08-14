@@ -3,12 +3,16 @@ import { Light, Render } from '@playcanvas/react/components';
 import { useAppEvent } from '@playcanvas/react/hooks';
 import type { Entity as PcEntity } from 'playcanvas';
 import { useRef } from 'react';
+import { gameBridge } from '../core/GameBridge';
 
 export function Scene() {
   const cube = useRef<PcEntity>(null);
   // Rotate the cube according to the delta time since the last frame
   useAppEvent('update', (dt: number) => cube.current?.rotate(10 * dt, 20 * dt, 30 * dt));
 
+  gameBridge.addEventListener('ui:event', () => {
+    console.log("Game got UI event");
+  });
   return (
     <>
       <Entity name="light" rotation={[45, 0, 0]}>
