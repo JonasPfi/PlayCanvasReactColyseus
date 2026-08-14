@@ -24,7 +24,7 @@ export function SceneUI() {
       </button>
       <button
         onClick={() => gameBridge.emitToGame('ui:event')}
-        className="pointer-events-auto absolute top-25 right-4 rounded-lg bg-slate-900/80 px-4 py-2 text-white backdrop-blur hover:bg-slate-800"
+        className="pointer-events-auto absolute top-26 right-4 rounded-lg bg-slate-900/80 px-4 py-2 text-white backdrop-blur hover:bg-slate-800"
       >
         Trigger UI event
       </button>
