@@ -1,16 +1,25 @@
 import { Entity } from '@playcanvas/react';
 import { Light, Render } from '@playcanvas/react/components';
-import { useApp, useAppEvent } from '@playcanvas/react/hooks';
-import { Keyboard, type Entity as PcEntity } from 'playcanvas';
-import { useEffect, useRef } from 'react';
+import { useAppEvent } from '@playcanvas/react/hooks';
+import { KEY_SPACE, type Entity as PcEntity } from 'playcanvas';
+import { useCallback, useEffect, useRef } from 'react';
 import { gameBridge } from '../core/GameBridge';
 import { gameStore } from '../core/GameStore';
+import type { KeyboardEvents } from '../core/KeyboardProvider';
+import { useCustomAppEvent } from '../core/useCustomAppEvent';
 
 export function Scene() {
-  const app = useApp();
   const cube = useRef<PcEntity>(null);
   // Rotate the cube according to the delta time since the last frame
   useAppEvent('update', (dt: number) => cube.current?.rotate(10 * dt, 20 * dt, 30 * dt));
+
+  const handleKeyDown = useCallback((key: number) => {
+    if (key === KEY_SPACE) {
+      gameBridge.emitToUI('game:event');
+    }
+  }, []);
+  useCustomAppEvent<KeyboardEvents['keyDown']>('keyDown', handleKeyDown);
+
   useEffect(() => {
     const handleUiEvent = () => {
       gameStore.setState({ test: gameStore.getState().test + 1 });
@@ -18,17 +27,8 @@ export function Scene() {
     };
     gameBridge.addEventListener('ui:event', handleUiEvent);
 
-    const keyboard = new Keyboard(window);
-    app.keyboard = keyboard;
-    const handleKeyDown = (event: any) => {
-      gameBridge.emitToUI('game:event', event);
-    };
-    keyboard.on('keydown', handleKeyDown);
-
     return () => {
       gameBridge.removeEventListener('ui:event', handleUiEvent);
-      keyboard.off('keydown', handleKeyDown);
-      app.keyboard = null;
     }
   }, []);
 

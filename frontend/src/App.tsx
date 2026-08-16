@@ -6,6 +6,7 @@ import { useAuth } from './contexts/AuthContext';
 import { Scene } from './game/Scene';
 import { SceneUI } from './ui/SceneUI';
 import { NetworkProvider } from './contexts/NetworkContext';
+import { KeyboardProvider } from './core/KeyboardProvider';
 
 function App() {
   const { user } = useAuth();
@@ -18,6 +19,7 @@ function App() {
     <div className="relative w-screen h-screen overflow-hidden">
       <NetworkProvider>
         <Application>
+          <KeyboardProvider />
           <Entity name="camera" position={[0, 0, 3]}>
             <Camera clearColor="#8099e6" />
           </Entity>
