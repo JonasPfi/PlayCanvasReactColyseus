@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import Network from '../core/Network';
-import type { User } from '../../../backend/src/config/database';
+import type { User } from '../../../backend/server/src/config/database';
 
 interface AuthContextType {
   user: Partial<User> | null;

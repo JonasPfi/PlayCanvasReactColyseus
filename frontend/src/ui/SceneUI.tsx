@@ -1,12 +1,25 @@
+import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { gameBridge } from '../core/GameBridge';
 import Network from '../core/Network';
+import { gameStore } from '../core/GameStore';
 
 export function SceneUI() {
   const { logout } = useAuth();
   async function joinRoom() {
     await Network.join("chunk");
   }
+  useEffect(() => {
+    const handleGameEvent = () => {
+      gameStore.setState({ test: gameStore.getState().test + 1 });
+      console.log('UI got game event. Event count:', gameStore.getState().test);
+    };
+    gameBridge.addEventListener('game:event', handleGameEvent);
+
+    return () => {
+      gameBridge.removeEventListener('game:event', handleGameEvent);
+    };
+  });
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none">
