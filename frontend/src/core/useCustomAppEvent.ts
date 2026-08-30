@@ -1,4 +1,3 @@
-// core/useCustomAppEvent.ts
 import { useApp } from '@playcanvas/react/hooks';
 import { useEffect } from 'react';
 
