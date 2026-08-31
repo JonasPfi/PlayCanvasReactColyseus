@@ -6,11 +6,9 @@ export class Chunk extends Room {
   state = new ChunkState();
 
   messages = {
-    yourMessageType: (client: Client, message: any) => {
-      /**
-       * Handle "yourMessageType" message.
-       */
-      console.log(client.sessionId, "sent a message:", message);
+    increment: (client: Client) => {
+      this.state.myCount++;
+      console.log(client.sessionId, "incremented the counter");
     }
   }
 
