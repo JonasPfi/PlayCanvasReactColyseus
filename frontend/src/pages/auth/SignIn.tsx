@@ -1,7 +1,8 @@
 import { useState } from "react";
-import Network from "../../core/Network";
-import { useAuth } from "../../contexts/AuthContext";
 import { Navigate, NavLink } from "react-router-dom";
+
+import { useAuth } from "../../contexts/AuthContext";
+import { client } from "../../core/colyseus";
 
 function SignIn() {
   const { user } = useAuth();
@@ -20,7 +21,7 @@ function SignIn() {
     const password = event.currentTarget.password.value;
     try {
       setIsLoading(true);
-      await Network.client.auth.signInWithEmailAndPassword(email, password);
+      await client.auth.signInWithEmailAndPassword(email, password);
 
     } catch (e: any) {
       setSignInError(`${e.name} - ${e.message}`);

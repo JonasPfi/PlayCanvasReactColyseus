@@ -1,30 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+
 import { useAuth } from '../contexts/AuthContext';
 import { gameBridge } from '../core/GameBridge';
-import Network from '../core/Network';
 import { gameStore } from '../core/GameStore';
-import { useRoom } from '../contexts/NetworkContext';
-import { Callbacks } from "@colyseus/sdk";
+import { useGameRoom, useGameRoomState } from '../rooms/gameRoom';
 
-export function SceneUI() {
+type SceneUIProps = {
+  onJoinRoom: () => void;
+}
+
+export function SceneUI({ onJoinRoom }: SceneUIProps) {
   const { logout } = useAuth();
-  const room = useRoom("myroom");
-  const [count, setCount] = useState(0);
+  const { room } = useGameRoom();
+  const count = useGameRoomState((state) => state.myCount);
 
-  async function joinRoom() {
-    await Network.join("myroom");
-  }
-
-  function incrementCount(){
+  function incrementCount() {
     room?.send("increment");
   }
-
-  useEffect(() => {
-    if(!room) return;
-    const callbacks = Callbacks.get(room);
-    const unsub = callbacks.listen("myCount", (value) => setCount(value));
-    return () => unsub();
-  }, [room]);
 
   useEffect(() => {
     const handleGameEvent = () => {
@@ -47,7 +39,7 @@ export function SceneUI() {
         Sign out
       </button>
       <button
-        onClick={joinRoom}
+        onClick={onJoinRoom}
         className="pointer-events-auto absolute top-15 right-4 rounded-lg bg-slate-900/80 px-4 py-2 text-white backdrop-blur hover:bg-slate-800"
       >
         Join Room
@@ -65,7 +57,7 @@ export function SceneUI() {
         Increment Count
       </button>
       <div className="pointer-events-none absolute top-4 left-4 text-white">
-        Count: {count}
+        Count: {count ?? 0}
       </div>
     </div>
   );

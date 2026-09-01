@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import Network from '../core/Network';
-import type { User } from '../../../backend/server/src/config/database';
 
-interface AuthContextType {
+import type { User } from '../../../backend/server/src/config/database';
+import { client } from '../core/colyseus';
+
+type AuthContextType = {
   user: Partial<User> | null;
   isLoading: boolean,
   logout: () => void;
@@ -22,13 +23,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const logout = () => Network.client.auth.signOut();
+  const logout = () => client.auth.signOut();
 
   useEffect(() => {
     //
     // Regular Web App
     //
-    const unsubscribe = Network.client.auth.onChange((authData) => {
+    const unsubscribe = client.auth.onChange((authData) => {
       console.log("onChange fired: ", authData);
       setIsLoading(false);
       setUser(authData?.user || null);

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import Network from "../../core/Network";
 import { Navigate, NavLink } from "react-router-dom";
+
+import { useAuth } from "../../contexts/AuthContext";
+import { client } from "../../core/colyseus";
 
 function CreateAccount() {
   const { user } = useAuth();
@@ -19,7 +20,7 @@ function CreateAccount() {
     const password = event.currentTarget.password.value;
     try {
       setIsLoading(true);
-      await Network.client.auth.registerWithEmailAndPassword(email, password, {
+      await client.auth.registerWithEmailAndPassword(email, password, {
         custom_data: [1, 2, 3, 4],
       });
 
