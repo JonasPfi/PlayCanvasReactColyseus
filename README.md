@@ -63,7 +63,7 @@ Copy `backend/server/.env.example` to `backend/server/.env` and replace the plac
   StrictMode-safety) is handled by the library.
   - **Adding another room type** (chat, lobby, party, ...): add a new file next to this one that
     calls `createRoomContext<YourState>()` (or `createLobbyContext<Metadata>()` for a
-    [lobby room](https://docs.colyseus.io/builtin-rooms/lobby/)) and export its own Provider/hooks.
+    [lobby room](https://docs.colyseus.io/getting-started/react#uselobbyroomcallback-deps)) and export its own Provider/hooks.
     Room types are independent of each other and of `colyseus.ts`.
   - **Dynamically joining an unknown number of rooms** (e.g. spectating several matches at once):
     don't add a context for this. Call the standalone `useRoom()` / `useRoomState()` hooks from
