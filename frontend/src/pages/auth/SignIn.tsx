@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Network from "../../core/Network";
 import { useAuth } from "../../contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 
 function SignIn() {
   const { user } = useAuth();
@@ -36,7 +36,7 @@ function SignIn() {
       {/*
         * Sign-in with Email/Password
         */}
-      <h2 className="text-xl mb-2">Email / Password:</h2>
+      <h2 className="text-xl mb-2">Login</h2>
       <form onSubmit={onSubmit} className="flex mb-8">
         <div className="flex gap-2">
           <input className="p-2 rounded text-slate-800" type="text" name="email" placeholder="Email" />
@@ -46,6 +46,7 @@ function SignIn() {
           {(signInError) && <p className="text-red-500">{signInError}</p>}
         </div>
       </form>
+      <NavLink to="/create-account">Create an account</NavLink>
     </div>
   )
 }

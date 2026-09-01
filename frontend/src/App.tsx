@@ -9,10 +9,14 @@ import { NetworkProvider } from './contexts/NetworkContext';
 import { KeyboardProvider } from './core/KeyboardProvider';
 
 function App() {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return null;
+  }
 
   if (!user) {
-    return <Navigate to="/create-account" />;
+    return <Navigate to="/sign-in" />;
   }
 
   return (

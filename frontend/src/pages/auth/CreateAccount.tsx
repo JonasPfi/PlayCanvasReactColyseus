@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import Network from "../../core/Network";
-import { Navigate } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 
 function CreateAccount() {
   const { user } = useAuth();
@@ -43,7 +43,7 @@ function CreateAccount() {
           {(error) && <p className="text-red-500">{error}</p>}
         </div>
       </form>
-
+      <NavLink to="/sign-in">Already have an account?</NavLink>
     </div>
   )
 }
