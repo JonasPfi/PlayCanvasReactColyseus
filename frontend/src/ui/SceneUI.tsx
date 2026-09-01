@@ -8,11 +8,11 @@ import { Callbacks } from "@colyseus/sdk";
 
 export function SceneUI() {
   const { logout } = useAuth();
-  const room = useRoom("chunk");
+  const room = useRoom("myroom");
   const [count, setCount] = useState(0);
 
   async function joinRoom() {
-    await Network.join("chunk");
+    await Network.join("myroom");
   }
 
   function incrementCount(){

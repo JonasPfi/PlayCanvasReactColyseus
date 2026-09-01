@@ -14,7 +14,7 @@ import "./config/auth.js";
 /**
  * Import your Room files
  */
-import { Chunk } from "./rooms/Chunk.js";
+import { MyRoom } from "./rooms/MyRoom.js";
 import { colyseus } from "colyseus/vite";
 
 const server = defineServer({
@@ -22,7 +22,7 @@ const server = defineServer({
    * Define your room handlers:
    */
   rooms: {
-    chunk: defineRoom(Chunk)
+    myroom: defineRoom(MyRoom)
   },
 
   /**

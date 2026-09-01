@@ -1,9 +1,9 @@
 import { Room, Client, CloseCode, AuthContext, ServerError, JWT } from "colyseus";
-import { ChunkState } from "./schema/ChunkState.js";
+import { MyRoomState } from "./schema/MyRoomState.js";
 
-export class Chunk extends Room {
+export class MyRoom extends Room {
   maxClients = 4;
-  state = new ChunkState();
+  state = new MyRoomState();
 
   messages = {
     increment: (client: Client) => {

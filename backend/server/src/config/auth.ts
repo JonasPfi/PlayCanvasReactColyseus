@@ -2,6 +2,7 @@ import { auth } from "@colyseus/auth";
 
 auth.backend_url = process.env.URL;
 
+//TODO: Replace with real database
 const fakeDatabase = [];
 
 auth.settings.onFindUserByEmail = async function(email) {
