@@ -43,6 +43,22 @@ export class Chunk extends Room {
     console.log(client.sessionId, "left!", code);
   }
 
+  onDrop(client: Client, code: CloseCode) {
+    /**
+     * Called on an unexpected disconnect (e.g. brief network loss, tab
+     * backgrounded).
+     */
+    console.log(client.sessionId, "dropped, allowing reconnection...", code);
+    this.allowReconnection(client, 20);
+  }
+
+  onReconnect(client: Client) {
+    /**
+     * Called when a dropped client reconnects successfully.
+     */
+    console.log(client.sessionId, "reconnected!");
+  }
+
   onDispose() {
     /**
      * Called when the room is disposed.
