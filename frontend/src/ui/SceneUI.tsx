@@ -8,7 +8,7 @@ import { Callbacks } from "@colyseus/sdk";
 
 export function SceneUI() {
   const { logout } = useAuth();
-  const room = useRoom();
+  const room = useRoom("chunk");
   const [count, setCount] = useState(0);
 
   async function joinRoom() {

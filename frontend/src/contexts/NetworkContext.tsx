@@ -2,35 +2,33 @@ import { createContext, useContext, useEffect, useState } from "react";
 import Network, { type NetworkStatus } from "../core/Network";
 import type { Room } from "@colyseus/sdk";
 
+type StatusEntry = { status: NetworkStatus; error: string | null };
+
 type NetworkContextValue = {
-  room: Room | null;
-  status: NetworkStatus;
-  error: string | null;
+  rooms: Map<string, Room>;
+  statuses: Map<string, StatusEntry>;
 };
 
-const NetworkContext = createContext<NetworkContextValue>({ room: null, status: "idle", error: null });
+const NetworkContext = createContext<NetworkContextValue>({ rooms: new Map(), statuses: new Map() });
 
 export function NetworkProvider({ children }: { children: React.ReactNode }) {
-  const [room, setRoom] = useState<Room | null>(Network.room);
-  const [status, setStatus] = useState<NetworkStatus>(Network.status);
-  const [error, setError] = useState<string | null>(null);
+  const [rooms, setRooms] = useState<Map<string, Room>>(new Map());
+  const [statuses, setStatuses] = useState<Map<string, StatusEntry>>(new Map());
 
-  useEffect(() => Network.onRoomChange(setRoom), []);
-  useEffect(() => Network.onStatusChange((s, e) => {
-    setStatus(s);
-    setError(e);
+  useEffect(() => Network.onRoomsChange((current) => setRooms(new Map(current))), []);
+  useEffect(() => Network.onStatusChange((key, entry) => {
+    setStatuses((prev) => new Map(prev).set(key, entry));
   }), []);
 
   return (
-    <NetworkContext.Provider value={{ room, status, error }}>{children}</NetworkContext.Provider>
+    <NetworkContext.Provider value={{ rooms, statuses }}>{children}</NetworkContext.Provider>
   );
 }
 
-export function useRoom() {
-  return useContext(NetworkContext).room;
+export function useRoom(key: string) {
+  return useContext(NetworkContext).rooms.get(key) ?? null;
 }
 
-export function useNetworkStatus() {
-  const { status, error } = useContext(NetworkContext);
-  return { status, error };
+export function useNetworkStatus(key: string): StatusEntry {
+  return useContext(NetworkContext).statuses.get(key) ?? { status: "idle", error: null };
 }
