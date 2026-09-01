@@ -24,7 +24,7 @@ export function SceneUI() {
     const callbacks = Callbacks.get(room);
     const unsub = callbacks.listen("myCount", (value) => setCount(value));
     return () => unsub();
-  });
+  }, [room]);
 
   useEffect(() => {
     const handleGameEvent = () => {
