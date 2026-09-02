@@ -99,9 +99,6 @@ This is a **starter template**, not production-ready as-is:
 
 - `backend/server/src/config/auth.ts` uses an in-memory `fakeDatabase` array with no persistence. Replace with a real database before
   shipping anything real.
-- The Colyseus monitor panel (`/monitor`) is mounted without password protection. See the
-  [Colyseus monitor docs](https://docs.colyseus.io/tools/monitoring/#restrict-access-to-the-panel-using-a-password)
-  before deploying.
 - `MyRoom`'s example message handler (`increment`) has no rate limiting or validation — add
   server-side checks for any real game logic.
 - `useGameRoom()` exposes `isConnecting` / `error`, but no fine-grained `"reconnecting"` state
