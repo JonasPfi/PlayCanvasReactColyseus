@@ -19,7 +19,7 @@ export function SceneUI({ onJoinRoom }: SceneUIProps) {
   const [toast, setToast] = useState<string | null>(null);
   function showToast(message: string) {
     setToast(message);
-    setTimeout(() => setToast(null), 1000);
+    setTimeout(() => setToast(null), 2000);
   }
 
   function incrementCount() {
