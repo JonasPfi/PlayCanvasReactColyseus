@@ -17,7 +17,6 @@ export function SceneUI({ onJoinRoom }: SceneUIProps) {
 
   //For popUp nnotifications
   const [toast, setToast] = useState<string | null>(null);
-
   function showToast(message: string) {
     setToast(message);
     setTimeout(() => setToast(null), 1000);
@@ -32,6 +31,11 @@ export function SceneUI({ onJoinRoom }: SceneUIProps) {
     showToast('Joining room...');
   }
 
+  function sendEventToGame() {
+    gameBridge.emitToGame('ui:event');
+    showToast("Sending UI event to game");
+  }
+
   useEffect(() => {
     const handleGameEvent = () => {
       gameStore.setState({ localCount: gameStore.getState().localCount + 1 });
@@ -43,7 +47,6 @@ export function SceneUI({ onJoinRoom }: SceneUIProps) {
       gameBridge.removeEventListener('game:event', handleGameEvent);
     };
   }, [room]);
-
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none">
@@ -67,15 +70,11 @@ export function SceneUI({ onJoinRoom }: SceneUIProps) {
         </button>
       )}
       <button
-        onClick={() => {
-          gameBridge.emitToGame('ui:event');
-          showToast("Sending UI event to game");
-        }}
+        onClick={sendEventToGame}
         className="pointer-events-auto absolute top-26 right-4 rounded-lg bg-slate-900/80 px-4 py-2 text-white backdrop-blur hover:bg-slate-800"
       >
         Trigger UI event
       </button>
-
       <div className="pointer-events-none absolute top-4 left-4 text-white">
         Event Count: {count ?? 0}
       </div>
@@ -84,6 +83,12 @@ export function SceneUI({ onJoinRoom }: SceneUIProps) {
       </div>
       <div className="pointer-events-none absolute top-16 left-4 text-white">
         Rotation Speed: {speed ?? 1}
+      </div>
+      <div className="pointer-events-none absolute bottom-4 left-4 max-w-xs space-y-1 rounded-lg bg-slate-900/70 p-3 text-xs text-white backdrop-blur">
+        <p>A & D: adjust the cube's rotation speed (only once you've joined a room)</p>
+        <p>Space: triggers a game event that the UI receives</p>
+        <p>Local Event Count: events your browser detected, tracked via the GameStore</p>
+        <p>Event Count: total number of events broadcast in your Colyseus room</p>
       </div>
     </div>
   );
