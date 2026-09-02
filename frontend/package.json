@@ -15,7 +15,7 @@
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {
-        "@colyseus/react": "^0.1.17",
+        "@colyseus/react": "^0.18.2",
         "@playcanvas/react": "^0.11.5",
         "playcanvas": "^2.21.3",
         "react": "^19.2.8",

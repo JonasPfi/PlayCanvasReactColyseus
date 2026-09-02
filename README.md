@@ -12,7 +12,7 @@ A full-stack starter template for building real-time multiplayer 3D games/experi
 .
 ├── frontend/   # Vite + React 19 + PlayCanvas React + Tailwind 4
 └── backend/
-    └── server/ # Colyseus 0.17 + Express
+    └── server/ # Colyseus 0.18 + Express
 ```
 
 ## Prerequisites
