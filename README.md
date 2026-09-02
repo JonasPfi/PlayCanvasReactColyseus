@@ -97,8 +97,7 @@ instead.
 
 This is a **starter template**, not production-ready as-is:
 
-- `backend/server/src/config/auth.ts` uses an in-memory `fakeDatabase` array with **plaintext
-  passwords** and no persistence. Replace with a real database and password hashing before
+- `backend/server/src/config/auth.ts` uses an in-memory `fakeDatabase` array with no persistence. Replace with a real database before
   shipping anything real.
 - The Colyseus monitor panel (`/monitor`) is mounted without password protection. See the
   [Colyseus monitor docs](https://docs.colyseus.io/tools/monitoring/#restrict-access-to-the-panel-using-a-password)
