@@ -56,7 +56,7 @@ export function Scene() {
 
   return (
     <>
-      <Entity name="light" rotation={[45, 0, 0]}>
+      <Entity name="light" rotation={[75, 0, 0]}>
         <Light type="directional" />
       </Entity>
       <Entity name="cube" ref={cube}>
