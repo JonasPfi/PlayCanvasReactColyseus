@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
-
+import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { gameBridge } from '../core/GameBridge';
-import { gameStore } from '../core/GameStore';
+import { gameStore, useGameStore } from '../core/GameStore';
 import { useGameRoom, useGameRoomState } from '../rooms/gameRoom';
 
 type SceneUIProps = {
@@ -13,51 +12,78 @@ export function SceneUI({ onJoinRoom }: SceneUIProps) {
   const { logout } = useAuth();
   const { room } = useGameRoom();
   const count = useGameRoomState((state) => state.myCount);
+  const speed = useGameRoomState((state) => state.myRotationSpeed);
+  const localCount = useGameStore((state) => state.localCount);
+
+  //For popUp nnotifications
+  const [toast, setToast] = useState<string | null>(null);
+
+  function showToast(message: string) {
+    setToast(message);
+    setTimeout(() => setToast(null), 1000);
+  }
 
   function incrementCount() {
     room?.send("increment");
   }
 
+  function handleJoinRoom() {
+    onJoinRoom();
+    showToast('Joining room...');
+  }
+
   useEffect(() => {
     const handleGameEvent = () => {
-      gameStore.setState({ test: gameStore.getState().test + 1 });
-      console.log('UI got game event. Event count:', gameStore.getState().test);
+      gameStore.setState({ localCount: gameStore.getState().localCount + 1 });
+      incrementCount();
+      showToast('UI got a game event');
     };
     gameBridge.addEventListener('game:event', handleGameEvent);
-
     return () => {
       gameBridge.removeEventListener('game:event', handleGameEvent);
     };
-  }, []);
+  }, [room]);
+
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none">
+      {toast && (
+        <div className="pointer-events-none absolute top-4 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-slate-900/90 px-4 py-2 text-sm text-white shadow-lg">
+          {toast}
+        </div>
+      )}
       <button
         onClick={logout}
         className="pointer-events-auto absolute top-4 right-4 rounded-lg bg-slate-900/80 px-4 py-2 text-white backdrop-blur hover:bg-slate-800"
       >
         Sign out
       </button>
+      {!room && (
+        <button
+          onClick={handleJoinRoom}
+          className="pointer-events-auto absolute top-15 right-4 rounded-lg bg-slate-900/80 px-4 py-2 text-white backdrop-blur hover:bg-slate-800"
+        >
+          Join Room
+        </button>
+      )}
       <button
-        onClick={onJoinRoom}
-        className="pointer-events-auto absolute top-15 right-4 rounded-lg bg-slate-900/80 px-4 py-2 text-white backdrop-blur hover:bg-slate-800"
-      >
-        Join Room
-      </button>
-      <button
-        onClick={() => gameBridge.emitToGame('ui:event')}
+        onClick={() => {
+          gameBridge.emitToGame('ui:event');
+          showToast("Sending UI event to game");
+        }}
         className="pointer-events-auto absolute top-26 right-4 rounded-lg bg-slate-900/80 px-4 py-2 text-white backdrop-blur hover:bg-slate-800"
       >
         Trigger UI event
       </button>
-      <button
-        onClick={incrementCount}
-        className="pointer-events-auto absolute top-37 right-4 rounded-lg bg-slate-900/80 px-4 py-2 text-white backdrop-blur hover:bg-slate-800"
-      >
-        Increment Count
-      </button>
+
       <div className="pointer-events-none absolute top-4 left-4 text-white">
-        Count: {count ?? 0}
+        Event Count: {count ?? 0}
+      </div>
+      <div className="pointer-events-none absolute top-10 left-4 text-white">
+        Local Event Count: {localCount ?? 1}
+      </div>
+      <div className="pointer-events-none absolute top-16 left-4 text-white">
+        Rotation Speed: {speed ?? 1}
       </div>
     </div>
   );

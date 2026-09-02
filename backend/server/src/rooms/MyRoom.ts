@@ -9,6 +9,14 @@ export class MyRoom extends Room {
     increment: (client: Client) => {
       this.state.myCount++;
       console.log(client.sessionId, "incremented the counter");
+    },
+    speedUp: (client: Client) => {
+      this.state.myRotationSpeed++;
+      console.log(client.sessionId, "incremented the rotation speed");
+    },
+    slowDown: (client: Client) => {
+      this.state.myRotationSpeed--;
+      console.log(client.sessionId, "decreased the rotation speed");
     }
   }
 
