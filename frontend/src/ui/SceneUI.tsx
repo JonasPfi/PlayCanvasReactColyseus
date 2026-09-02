@@ -15,7 +15,7 @@ export function SceneUI({ onJoinRoom }: SceneUIProps) {
   const speed = useGameRoomState((state) => state.myRotationSpeed);
   const localCount = useGameStore((state) => state.localCount);
 
-  //For popUp nnotifications
+  //For PopUp notifications
   const [toast, setToast] = useState<string | null>(null);
   function showToast(message: string) {
     setToast(message);
