@@ -4,7 +4,7 @@ A full-stack starter template for building real-time multiplayer 3D games/experi
 [PlayCanvas](https://playcanvas.com/) (via [`@playcanvas/react`](https://developer.playcanvas.com/user-manual/react/)),
 [React](https://react.dev/), and [Colyseus](https://colyseus.io/) for authoritative multiplayer state sync.
 
-![logo](https://github.com/JonasPfi/PlayCanvasReactColyseus/blob/main/image.jpeg)
+![logo](https://github.com/JonasPfi/PlayCanvasReactColyseus/blob/main/image.png)
 
 ## Monorepo structure
 
