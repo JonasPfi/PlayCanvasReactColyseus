@@ -22,6 +22,19 @@ A full-stack starter template for building real-time multiplayer 3D games/experi
 
 ## Getting started
 
+### Quick start (recommended)
+
+Scaffold a new project from this template without cloning the full git history:
+
+```bash
+npx degit JonasPfi/PlayCanvasReactColyseus my-app
+cd my-app
+```
+
+Then continue with the setup steps below.
+
+### Manual setup
+
 Clone the repo, then set up each package separately (they are not npm workspaces, so
 `npm install` must be run in each folder):
 
