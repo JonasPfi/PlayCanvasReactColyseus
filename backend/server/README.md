@@ -1,29 +1,29 @@
-# Welcome to Colyseus!
+# Backend — Colyseus server
 
-This project has been created using [⚔️ `create-colyseus-app`](https://github.com/colyseus/create-colyseus-app/) - an npm init template for kick starting a Colyseus project in TypeScript.
+The multiplayer/auth backend for the [PlayCanvas + React + Colyseus Starter](../../README.md).
+Built with [Colyseus](https://colyseus.io/) and [`@colyseus/auth`](https://docs.colyseus.io/authentication/).
 
-[Documentation](http://docs.colyseus.io/)
+See the [root README](../../README.md) for setup, environment variables, and architecture notes.
 
-## :crossed_swords: Usage
+## Usage
 
+```bash
+npm install
+npm start        # runs on http://localhost:2567
 ```
-npm start
-```
+
+Other scripts: `npm test` (mocha test suite), `npm run loadtest` (scriptable load-test client),
+`npm run build` (compile to `build/`).
 
 ## Structure
 
-- `index.ts`: main entry point, register an empty room handler and attach [`@colyseus/monitor`](https://github.com/colyseus/colyseus-monitor)
-- `src/rooms/MyRoom.ts`: an empty room handler for you to implement your logic
-- `src/rooms/schema/MyRoomState.ts`: an empty schema used on your room's state.
-- `loadtest/example.ts`: scriptable client for the loadtest tool (see `npm run loadtest`)
-- `package.json`:
-    - `scripts`:
-        - `npm start`: runs `ts-node-dev index.ts`
-        - `npm test`: runs mocha test suite
-        - `npm run loadtest`: runs the [`@colyseus/loadtest`](https://github.com/colyseus/colyseus-loadtest/) tool for testing the connection, using the `loadtest/example.ts` script.
-- `tsconfig.json`: TypeScript configuration file
-
-
-## License
-
-MIT
+- `src/index.ts` — entry point, boots the Colyseus server (`src/app.config.ts`).
+- `src/app.config.ts` — registers room handlers and the `@colyseus/auth` routes.
+- `src/rooms/MyRoom.ts` — example room with JWT auth (`onAuth`), reconnection support
+  (`onDrop`/`onReconnect`), and a synchronized counter.
+- `src/rooms/schema/MyRoomState.ts` — the room's synchronized schema, imported as a type-only
+  import by the frontend (see the root README's "A note on shared types").
+- `src/config/auth.ts` — `@colyseus/auth` configuration; uses an in-memory `fakeDatabase`,
+  replace with a real database before shipping anything real.
+- `src/config/database.ts` — database setup/connection.
+- `loadtest/example.ts` — scriptable client for `npm run loadtest`.
