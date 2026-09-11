@@ -2,11 +2,14 @@
   "name": "PlayCanvasReactColyseusStarter",
   "private": true,
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "install:all": "npm install --prefix backend/server && npm install --prefix frontend",
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm start --prefix backend/server\" \"npm run dev --prefix frontend\""
   },
   "devDependencies": {
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",
+    "concurrently": "^9.1.2",
     "husky": "^9.1.7"
   }
 }

@@ -33,10 +33,20 @@ cd my-app
 
 Then continue with the setup steps below.
 
-### Manual setup
+### Setup
 
-Clone the repo, then set up each package separately (they are not npm workspaces, so
-`npm install` must be run in each folder):
+`frontend` and `backend/server` are separate npm packages (not npm workspaces), each with its
+own `node_modules` and lockfile — this keeps them independently installable/deployable. The root
+`package.json` provides convenience scripts that install and run both without workspaces:
+
+```bash
+npm install              # installs root devDependencies (husky, commitlint, concurrently)
+npm run install:all      # installs backend/server and frontend dependencies
+cp backend/server/.env.example backend/server/.env   # then fill in real secrets, see below
+npm run dev               # starts backend (:2567) and frontend (:5173) together
+```
+
+Or set up/run each package separately in its own terminal:
 
 ```bash
 # 1. Backend
