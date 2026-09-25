@@ -6,7 +6,6 @@ import { useCallback, useEffect, useRef } from 'react';
 import { gameBridge } from '../core/GameBridge';
 import { gameStore } from '../core/GameStore';
 import type { KeyboardEvents } from '../core/KeyboardProvider';
-import { useCustomAppEvent } from '../core/useCustomAppEvent';
 import { useGameRoom, useGameRoomState } from '../rooms/gameRoom';
 
 export function Scene() {
@@ -35,12 +34,12 @@ export function Scene() {
     }
     keyIsDown.current.set(key, true);
   }, [room]);
-  useCustomAppEvent<KeyboardEvents['keyDown']>('keyDown', handleKeyDown);
+  useAppEvent<KeyboardEvents>('keyDown', handleKeyDown);
 
   const handleKeyUp = useCallback((key: number) => {
     keyIsDown.current.set(key, false);
   }, []);
-  useCustomAppEvent<KeyboardEvents['keyUp']>('keyUp', handleKeyUp);
+  useAppEvent<KeyboardEvents>('keyUp', handleKeyUp);
 
   useEffect(() => {
     const handleUiEvent = () => {
